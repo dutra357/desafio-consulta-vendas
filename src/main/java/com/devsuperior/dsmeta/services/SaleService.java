@@ -9,6 +9,8 @@ import java.util.Optional;
 import com.devsuperior.dsmeta.dto.ReportDto;
 import com.devsuperior.dsmeta.dto.SummaryDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.devsuperior.dsmeta.dto.SaleMinDTO;
@@ -27,7 +29,7 @@ public class SaleService {
 		return new SaleMinDTO(entity);
 	}
 
-	public List<ReportDto> getReport(String start, String end, String name) {
+	public Page<ReportDto> getReport(String start, String end, String name, Pageable pageable) {
 
 		if (end == null || end.equals("") ) {
 			end = LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault()).toString();
@@ -36,7 +38,7 @@ public class SaleService {
 		if (start == null || start.equals("")) {
 			start = LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault()).minusYears(1L).toString();
 		}
-		return repository.getReport(LocalDate.parse(start), LocalDate.parse(end), name);
+		return repository.getReport(LocalDate.parse(start), LocalDate.parse(end), name, pageable);
 	}
 
 	public List<SummaryDto> getSummary(String start, String end) {
