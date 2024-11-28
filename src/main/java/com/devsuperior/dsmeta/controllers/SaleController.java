@@ -1,6 +1,7 @@
 package com.devsuperior.dsmeta.controllers;
 
 import com.devsuperior.dsmeta.dto.ReportDto;
+import com.devsuperior.dsmeta.dto.SummaryDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,8 +35,8 @@ public class SaleController {
 	}
 
 	@GetMapping(value = "/summary")
-	public ResponseEntity<?> getSummary() {
-		// TODO
-		return null;
+	public ResponseEntity<List<SummaryDto>> getSummary(@RequestParam(name = "minDate", defaultValue = "") String start,
+												 @RequestParam(name = "maxDate", defaultValue = "") String end) {
+		return ResponseEntity.ok(service.getSummary(start, end));
 	}
 }

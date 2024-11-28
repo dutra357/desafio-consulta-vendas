@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.devsuperior.dsmeta.dto.ReportDto;
+import com.devsuperior.dsmeta.dto.SummaryDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,16 +30,25 @@ public class SaleService {
 	public List<ReportDto> getReport(String start, String end, String name) {
 
 		if (end == null || end.equals("") ) {
-			end = LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault());
+			end = LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault()).toString();
 		}
 
 		if (start == null || start.equals("")) {
-			start = end.minusYears(1L);
+			start = LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault()).minusYears(1L).toString();
+		}
+		return repository.getReport(LocalDate.parse(start), LocalDate.parse(end), name);
+	}
+
+	public List<SummaryDto> getSummary(String start, String end) {
+
+		if (end == null || end.equals("") ) {
+			end = LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault()).toString();
 		}
 
-
-
-		return repository.getReport(start, end, name);
+		if (start == null || start.equals("")) {
+			start = LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault()).minusYears(1L).toString();
+		}
+		return repository.getSummary(LocalDate.parse(start), LocalDate.parse(end));
 	}
 
 
